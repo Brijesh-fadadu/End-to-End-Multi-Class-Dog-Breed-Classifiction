@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en" class="h-100">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="" />
+    <meta
+      name="author"
+      content="Mark Otto, Jacob Thornton, and Bootstrap contributors"
+    />
+    <meta name="generator" content="Hugo 0.88.1" />
+    <title>Predicto</title>
+
+    <!-- Bootstrap core CSS -->
+    <link
+      href="{{url_for('static',filename='css/bootstrap.min.css')}}"
+      rel="stylesheet"
+    />
+
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+    </style>
+
+    <!-- Custom styles for this template -->
+    <link
+      href="{{url_for('static',filename='css/style.css')}}"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body class="d-flex text-white bg-dark">
+    <div class="main-bg prediction-bg">
+      <div class="container d-flex w-100 h-100 p-3 mx-auto flex-column">
+        <header class="mb-auto">
+          <nav class="navbar navbar-expand-lg navbar-dark">
+            <div class="container-fluid">
+              <a class="navbar-brand" href="#">
+                <img
+                  src="{{url_for('static',filename='images/logo.png')}}"
+                  width="200"
+                  alt="Logo"
+                />
+              </a>
+              <button
+                class="navbar-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent"
+                aria-expanded="false"
+                aria-label="Toggle navigation"
+              >
+                <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                  <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="/">Home</a>
+                  </li>
+                  <!-- <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="#"
+                      >About Us</a
+                    >
+                  </li> -->
+                  <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="./prediction"
+                      >Prediction</a
+                    >
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </nav>
+        </header>
+
+        <main class="px-3">
+        
+
+          <div class="second-main" style="height: 100%; width: 100%">
+            <div class="s-container">
+              <div class="s-box-1">
+                <div class="header">
+                  <row style="width: 100%; display: flex; justify-content: center">
+                    <h5 class="header-text">Uploaded Image</h5>
+                  </row>
+                  <row style="width: 100%; display: flex; justify-content: center; max-width:250px;">
+                    <img class="result-img" style="width:100%;" src={{url_for('static', filename =
+                    'images/'+ img)}}>
+                  </row>
+                </div>
+              </div>
+              <div class="s-box-2">
+                <div class="info ms-md-3" >
+                  <row style="width: 100%; display: flex; justify-content: center">
+                    <h5 class="header-text">Model Prediction</h5>
+                  </row>
+                  <row style="width: 100%; display: flex; justify-content: center">
+                    <table class="prediction-table text-light table-custom">
+                      <thead>
+                        <tr>
+                          <th>Rank</th>
+                          <th>Class</th>
+                          <th>Probability</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>1st</td>
+                          <td>{{ predictions.class1 }}</td>
+                          <td>{{ predictions.prob1 }} %</td>
+                        </tr>
+                        <tr>
+                          <td>2nd</td>
+                          <td>{{ predictions.class2 }}</td>
+                          <td>{{ predictions.prob2 }} %</td>
+                        </tr>
+                        <tr>
+                          <td>3rd</td>
+                          <td>{{ predictions.class3 }}</td>
+                          <td>{{ predictions.prob3 }} %</td>
+                        </tr>
+                      </tbody>
+                      
+                     
+                    </table>
+                  </row>
+                </div>
+              </div>
+              <div class="s-box-3">
+                <div class="upload-section">
+                  <div class="upload-file">
+                    <form
+                      class="file-form"
+                      action="/success"
+                      method="post"
+                      enctype="multipart/form-data"
+                    >
+                      <label for="file-form-input" class="file-form-input-label">
+                        <span id="file-upload-filename">
+                          Click here to Choose file
+                        </span>
+                        <input
+                          required
+                          class="file-form-input"
+                          id="file-form-input"
+                          type="file"
+                          name="file"
+                        />
+                      </label>
+                      <button class="btn btn-success btn-lg">Find Breed</button>
+                    </form>
+                  </div>
+      
+                  <div class="header-content-sub">
+                    <p
+                      style="text-align: center; margin-top: 15px; color: red"
+                      class="header-content-info"
+                    >
+                      {{error}} 
+                    </p>
+                  </div>
+                </div>
+                
+              </div>
+            </div>
+           
+
+            
+           
+
+          </div>
+
+          
+        </main>
+
+        <footer class="mt-auto text-white-50"></footer>
+      </div>
+    </div>
+
+    <script>
+      var input = document.getElementById( 'file-form-input' );
+    var infoArea = document.getElementById( 'file-upload-filename' );
+
+    input.addEventListener( 'change', showFileName );
+
+    function showFileName( event ) {
+        console.log("show input ")
+      // the change event gives us the input it occurred in
+      var input = event.srcElement;
+
+      // the input has an array of files in the `files` property, each one has a name that you can use. We're just using the name here.
+      var fileName = input.files[0].name;
+
+      infoArea.textContent = 'File name: ' + fileName;
+    }
+      // use fileName howev
+  </script>
+  </body>
+</html>
