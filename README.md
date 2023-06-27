@@ -1,4 +1,4 @@
-# End-to-end Multi class Dog Breed Identification
+# End-to-end Multi-class Dog Breed Identification
 
 ## Demo
 
